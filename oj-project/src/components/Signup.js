@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-
 import axios from 'axios';
-
+import './login.css'
+import { useNavigate } from 'react-router-dom';
 const Signup = () => {
   const [userName, setuserName] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  var history = useNavigate();
 
   const handleuserNameChange = (e) => {
     setuserName(e.target.value);
@@ -30,7 +31,8 @@ const Signup = () => {
     };
 
     // Send a POST request to the backend server
-    axios.post('http://localhost:4000/OJ/auth/signup', signupData)
+    axios
+      .post('http://localhost:4000/OJ/auth/signup', signupData)
       .then((response) => {
         // Handle the response from the server
         console.log(response.data);
@@ -38,6 +40,7 @@ const Signup = () => {
         setuserName('');
         setPassword('');
         setEmail('');
+        history('/');
       })
       .catch((error) => {
         // Handle errors
@@ -47,42 +50,43 @@ const Signup = () => {
   };
 
   return (
-    <div>
-      <h2>Signup</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="userName">userName</label>
-          <input
-            type="text"
-            id="userName"
-            value={userName}
-            onChange={handleuserNameChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={handleEmailChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={handlePasswordChange}
-          />
-        </div>
-        <button type="submit">Signup</button>
-      </form>
-      <div><p>login {" "}</p>
-        <a href='/'>login</a>
+    <div className="login-container">
+      <div className='login-box'>
+        <h2>Signup</h2>
+        <form  onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="userName"></label>
+            <input
+              type="text"
+              id="userName"
+              placeholder="Username"
+              value={userName}
+              onChange={handleuserNameChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email" className="form-group"></label>
+            <input
+              type="email"
+              id="email"
+              placeholder="email"
+              value={email}
+              onChange={handleEmailChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password"></label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              value={password}
+              onChange={handlePasswordChange}
+            />
+          </div>
+          <button type="submit">Signup</button>
+        </form>
       </div>
-      
     </div>
   );
 };

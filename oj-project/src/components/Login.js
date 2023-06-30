@@ -1,40 +1,42 @@
 import React, { useState } from 'react';
-
 import axios from 'axios';
-import { redirect } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
+import './login.css'; // Import the CSS file for styling
+import Home from './Home.js';
 
 
 const Login = () => {
   const [userName, setuserName] = useState('');
   const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  
+  const [email , setEmail] = useState('');
 
+  var history = useNavigate();
 
   const handleuserNameChange = (e) => {
     setuserName(e.target.value);
-  };
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
 
     // Create an object with the login data
     const loginData = {
-      userName,
       email,
+      userName,
       password,
     };
 
     // Send a POST request to the backend server
-    axios.post('http://localhost:4000/OJ/auth/signin', loginData)
+    axios
+      .post('http://localhost:4000/OJ/auth/signin', loginData)
       .then((response) => {
         // Handle the response from the server
         console.log(response.data);
@@ -42,60 +44,54 @@ const Login = () => {
         setuserName('');
         setPassword('');
         setEmail('');
-        
+        history('/home');
       })
       .catch((error) => {
         // Handle errors
         console.log(error);
-        //console.error(error);
       });
   };
 
- 
-
-
-
-
   return (
-   
-
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="userName">userName</label>
-          <input
-            type="text"
-            id="userName"
-            value={userName}
-            onChange={handleuserNameChange}
-          />
+    <div className="login-container">
+      <div className="login-box">
+        <h2>Log In</h2>
+        <form onSubmit={handleSubmit}>
+        <div className="form-group">
+            <label htmlFor="email" className="form-group"></label>
+            <input
+              type="email"
+              id="email"
+              placeholder="email"
+              value={email}
+              onChange={handleEmailChange}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              placeholder="userName"
+              value={userName}
+              onChange={handleuserNameChange}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={handlePasswordChange}
+            />
+          </div>
+          <button type="submit">Log In</button>
+        </form>
+        <div className="signup-link">
+          <p>
+            Don't have an account? <Link to="/signup">Sign up</Link>
+          </p>
         </div>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={handleEmailChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={handlePasswordChange}
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-      
-      <div><p>signup {" "}</p>
-        <a href='/signup'>Sign-up</a>
       </div>
-      
+
     </div>
   );
 };
