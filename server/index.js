@@ -14,17 +14,42 @@ require("dotenv").config();
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-
+import passport from "passport";
+import  session from "express-session";
 import db from "./database/index.js";
 import router from "./routes/index.js";
+import routeConfig from "./config/routeConfig.js";
+import bodyParser from "body-parser";
+
+
 
 const app = express();
+routeConfig(passport);
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: true,
+    secret: "OJProject",
+  })
+);
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
 
 app.use('/OJ', router)
+
 
 app.listen(4000, () => {
   db()

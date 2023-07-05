@@ -15,10 +15,11 @@ const getAllProblems = async (req, res) => {
 
 //get particular problem
 const getParticularProblem = async (req, res) => {
+
     try {
         const { _id } = req.params;
         //find tht problem using id
-        const problem = ProblemModel.findOne({ _id });
+        const problem = await ProblemModel.findOne({ _id });
         return res.status(200).json({problem});
     }
     catch(err)

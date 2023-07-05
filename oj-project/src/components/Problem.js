@@ -1,6 +1,8 @@
 import React from 'react';
+import Compiler from './Compiler.js';
 import { useLocation } from 'react-router-dom';
 import './problem.css';
+import "./compiler.css"
 
 const Problem = () => {
   const location = useLocation();
@@ -12,7 +14,7 @@ const Problem = () => {
   }
 
   // Access the problem statement and other properties
-  const { title, statement, example } = problem;
+  const { title, statement, example , _id} = problem;
 
   return (
     <div className="problem-container">
@@ -34,9 +36,11 @@ const Problem = () => {
       <div className="compiler-container">
         {/* Right side for the compiler */}
         {/* Add your compiler component here */}
+        <Compiler _id={_id}/>
       </div>
     </div>
   );
 };
+
 
 export default Problem;

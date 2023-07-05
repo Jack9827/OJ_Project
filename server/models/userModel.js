@@ -25,7 +25,7 @@ const userSchema = mongoose.Schema(
 //genrating jwt token
 userSchema.methods.generateJwtToken = function () {
     //user gets id for current user , string can be anything
-    return jwt.sign({ user: this._id.toString() }, "RandomString");
+    return jwt.sign({ user: this._id.toString() }, "OJProject");
 };
 
 
