@@ -1,6 +1,6 @@
 //ye complete samghna hai
 
-
+//env -> sceret keys
 import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);
@@ -24,10 +24,14 @@ import bodyParser from "body-parser";
 
 
 const app = express();
+
 routeConfig(passport);
+
 app.use(cors());
 app.use(helmet());
+
 app.use(express.json());
+
 app.use(
   session({
     resave: false,
@@ -35,8 +39,10 @@ app.use(
     secret: "OJProject",
   })
 );
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -47,6 +53,7 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(function (user, done) {
   done(null, user);
 });
+
 
 app.use('/OJ', router)
 
@@ -63,3 +70,5 @@ app.listen(4000, () => {
 });
 
 // http://localhost:4000/OJ/
+
+//token , passport

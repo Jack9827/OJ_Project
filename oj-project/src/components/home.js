@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './home.css';
+import Navbar from './Navbar';
 
 const Home = () => {
   const [problems, setProblems] = useState([]);
@@ -25,7 +26,9 @@ const Home = () => {
   };
 
   return (
+
     <div className="container">
+      <Navbar/>
       <h1 className="title">Problem List</h1>
       <div className="problem-list">
         {problems.length === 0 ? (

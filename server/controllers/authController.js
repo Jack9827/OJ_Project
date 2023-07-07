@@ -3,7 +3,11 @@ import { UserModel } from "../models/userModel.js";
 
 //sign-in function
 const signin = async(req , res) => {
-    console.log('here');
+    /* 
+    body{
+        email:email , 
+    }
+    */
     try{
         const userData = req.body;
         console.log(userData);
@@ -21,7 +25,6 @@ const signin = async(req , res) => {
 const signup = async(req , res) => {
 
     try{
-
         const userData = req.body;
         //throws error if user already there
         await UserModel.findByEmailAndUserName(userData);

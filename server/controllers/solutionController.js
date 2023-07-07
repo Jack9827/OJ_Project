@@ -60,7 +60,6 @@ const runAProblem = async (req, res) => {
       const success =
         pureStringOutout.toLowerCase() ==
         pureStringtestcaseOutput.toLowerCase();
-
       if (!success) {
         return res.status(200).json({
           verdict: "Failed",
@@ -73,8 +72,8 @@ const runAProblem = async (req, res) => {
       .status(200)
       .json({ verdict: "Passed", message: `All Example testcases Passed` });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: error });
+    console.log("syntax error");
+    return res.status(500).json({ error: "syntax error"});
   }
 };
 
@@ -124,7 +123,9 @@ const submitAProblem = async (req, res) => {
           submittedBy: userId,
           submittedAt: new Date(),
         });
-        return res.status(200).json({ solution });
+        const message = "Wrong answer on testcase " + `${i+1}`
+        const tt = testcase.input;
+        return res.status(200).json({ solution , message:message , tt:tt});
       }
     }
     const solution = await SolutionModel.create({
@@ -134,11 +135,11 @@ const submitAProblem = async (req, res) => {
       submittedBy: userId,
       submittedAt: new Date(),
     });
-
-    return res.status(200).json({ solution });
+    const message = "Congratulations you got it!!!"
+    return res.status(200).json({ solution , message:message });
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ error: error });
+    return res.status(500).json({ error: error.message });
   }
 };
 

@@ -28,7 +28,8 @@ userSchema.methods.generateJwtToken = function () {
     return jwt.sign({ user: this._id.toString() }, "OJProject");
 };
 
-
+//schema.statics.function
+//email -> jai@ , 
 userSchema.statics.findByEmailAndUserName = async ({ email, userName }) => {
     //checking if email already exist or not
     const userByEmail = await UserModel.findOne({ email });
@@ -47,7 +48,7 @@ userSchema.statics.findByEmailOrUsernameAndPassword = async ({ email, userName, 
     const user = await UserModel.findOne({ email });
     if (!user) throw new Error("Email doesn't match with any user");
 
-    else if (user.userName != userName) throw new Error("No such account found");
+    if (user.userName != userName) throw new Error("No such account found");
 
     //check for password
     const matchPassword = await bcrypt.compare(password, user.password);
@@ -60,6 +61,7 @@ userSchema.statics.findByEmailOrUsernameAndPassword = async ({ email, userName, 
 
 //now for encrypting password
 // pre("string" , next) => what to before that string operation then what to do after that is next
+
 userSchema.pre("save", function (next) {
 
     //gets current user

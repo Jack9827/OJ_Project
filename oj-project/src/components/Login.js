@@ -6,6 +6,7 @@ import Home from './Home.js';
 
 
 const Login = () => {
+  //[variable , setterFucntion]
   const [userName, setuserName] = useState('');
   const [password, setPassword] = useState('');
   const [email , setEmail] = useState('');
@@ -41,7 +42,6 @@ const Login = () => {
         // Handle the response from the server
         /* console.log(response.data.token); */
         const token = response.data.token;
-        console.log("login " + token);
         localStorage.setItem("jwt", JSON.stringify(token));
         // Reset the form
         setuserName('');

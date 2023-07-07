@@ -5,7 +5,9 @@ const Compiler = ({ _id }) => {
     // State for input values
     const [language, setLanguage] = useState('cpp');
     const [code, setCode] = useState('');
-    const [compilerOutput, setCompilerOutput] = useState('');
+    const [verdict, setVerdict] = useState('');
+    const [message, setMessage] = useState('');
+    const [err , setErr] = useState('');
 
     // Function to handle form submission
     const handleSubmit = async (event) => {
@@ -23,21 +25,57 @@ const Compiler = ({ _id }) => {
             );
             // Handle the response
             // ...
-            console.log(response.data.solution.verdict);
-            alert(response.data.solution.verdict);
+            console.log(response.data);
+            //alert(response.data.solution.verdict);
+            setVerdict(response.data.solution.verdict)
+            /* setMessage(response.data.message); */
+            if (verdict === "Passed") {
+                setMessage(response.data.message)
+            }
+            else {
+
+                setMessage(response.data.message + ": " + response.data.tt);
+            }
         } catch (error) {
-            console.log(error.message);
+            console.log(error);
+        }
+    };
+    const handleRun = async (event) => {
+        event.preventDefault();
+        const solution = {
+            code: code,
+            language: language
+        };
+        const token = localStorage.getItem("jwt"); // Retrieve the JWT from local storage
+        try {
+            console.log("compiler " + token);
+            const response = await axios.post(
+                `http://localhost:4000/OJ/solutions/run/${_id}`,
+                solution,
+            );
+            // Handle the response
+            // ...
+            console.log(response);
+            //alert(response.data.solution.verdict);
+            setVerdict(response.data.verdict)
+            /* setMessage(response.data.message); */
+            if (verdict === "Passed") {
+                setMessage(response.data.message)
+            }
+            else {
+
+                setMessage(response.data.message);
+            }
+        } catch (error) {
+            setErr("syntax error");
+            console.log("syntax error");
         }
     };
 
-    // Function to handle compiler output
-    const handleCompilerOutput = (output) => {
-        setCompilerOutput(output);
-    };
 
     return (
         <div className="compiler-container">
-            <form onSubmit={handleSubmit}>
+            <form>
                 <div className="form-group">
                     <label>Language:</label>
                     <select
@@ -56,16 +94,22 @@ const Compiler = ({ _id }) => {
                         value={code}
                         onChange={(e) => setCode(e.target.value)}
                         rows={30}
-                        cols={50}
+                        cols={100}
                         className='codeArea'
                     />
                 </div>
-                <button type="submit">Submit</button>
+                <div className='buttons'>
+                    <div type="submit" onClick={handleRun} className='run'>Run</div>
+                    <div type="submit" onClick={handleSubmit} className='submit'>Submit</div>
+                </div>
             </form>
 
-            <div className="compiler-output">
-                <h3>Compiler Output:</h3>
-                <pre>{compilerOutput}</pre>
+            <div>
+            <h3>Compiler Output:</h3>
+                
+                    <pre>{verdict==="Passed"?<p className='greenColor'>{verdict}</p>:<p className='redColor'>{verdict}</p>}</pre>
+                    <pre>{verdict==="Passed"?<p className='greenColor'>{message}</p>:<p className='redColor'>{message}</p>}</pre>
+                    {(!err)?<pre>{err}</pre>:""}
             </div>
         </div>
     );

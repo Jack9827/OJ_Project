@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@babel/preset-env": "^7.22.5",
+    "@headlessui/react": "^1.7.15",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
