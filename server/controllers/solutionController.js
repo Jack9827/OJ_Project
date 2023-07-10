@@ -72,8 +72,8 @@ const runAProblem = async (req, res) => {
       .status(200)
       .json({ verdict: "Passed", message: `All Example testcases Passed` });
   } catch (error) {
-    console.log("syntax error");
-    return res.status(500).json({ error: "syntax error"});
+    console.log(error.stderr);
+    return res.status(500).json({ error: error.stderr});
   }
 };
 

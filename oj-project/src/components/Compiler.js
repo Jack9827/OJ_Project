@@ -67,7 +67,7 @@ const Compiler = ({ _id }) => {
                 setMessage(response.data.message);
             }
         } catch (error) {
-            setErr(error.response.data);
+            setErr(error.response.data.error);
             console.log(error);
         }
     };
