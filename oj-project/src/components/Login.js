@@ -10,6 +10,7 @@ const Login = () => {
   const [userName, setuserName] = useState('');
   const [password, setPassword] = useState('');
   const [email , setEmail] = useState('');
+  const [err , setErr] = useState("");
 
   var history = useNavigate();
 
@@ -34,7 +35,6 @@ const Login = () => {
       userName,
       password,
     };
-
     // Send a POST request to the backend server
     axios
       .post('http://localhost:4000/OJ/auth/signin', loginData)
@@ -51,7 +51,8 @@ const Login = () => {
       })
       .catch((error) => {
         // Handle errors
-        console.log(error);
+        setErr(error.response.data.error)
+        console.log(error.response.data.error);
       });
   };
 
@@ -86,6 +87,7 @@ const Login = () => {
               onChange={handlePasswordChange}
             />
           </div>
+          <pre>{err?<div className='redText'>{err}</div>:""}</pre>
           <button type="submit">Log In</button>
         </form>
         <div className="signup-link">

@@ -1,9 +1,15 @@
 import React from 'react';
 import './navbar.css';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+  var navigate = useNavigate();
+
   const handleLogout = () => {
     // Handle logout functionality
+    console.log('logout');
+    localStorage.removeItem("jwt");
+    navigate('/');
   };
 
   const handleAdd = () => {

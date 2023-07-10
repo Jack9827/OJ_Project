@@ -6,6 +6,7 @@ const Signup = () => {
   const [userName, setuserName] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [err , setErr] = useState('');
   var history = useNavigate();
 
   const handleuserNameChange = (e) => {
@@ -44,7 +45,8 @@ const Signup = () => {
       })
       .catch((error) => {
         // Handle errors
-        console.log(error.message);
+        console.log(error.response.data.error);
+        setErr(error.response.data.error);
         console.error(error);
       });
   };
@@ -83,6 +85,7 @@ const Signup = () => {
               value={password}
               onChange={handlePasswordChange}
             />
+            <pre>{err?<div className='redText'>{err}</div>:""}</pre>
           </div>
           <button type="submit">Signup</button>
         </form>

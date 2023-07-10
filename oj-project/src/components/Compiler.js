@@ -67,8 +67,8 @@ const Compiler = ({ _id }) => {
                 setMessage(response.data.message);
             }
         } catch (error) {
-            setErr("syntax error");
-            console.log("syntax error");
+            setErr(error.response.data);
+            console.log(error);
         }
     };
 
@@ -109,7 +109,7 @@ const Compiler = ({ _id }) => {
                 
                     <pre>{verdict==="Passed"?<p className='greenColor'>{verdict}</p>:<p className='redColor'>{verdict}</p>}</pre>
                     <pre>{verdict==="Passed"?<p className='greenColor'>{message}</p>:<p className='redColor'>{message}</p>}</pre>
-                    {(!err)?<pre>{err}</pre>:""}
+                    {(err)?<pre className='redText'>{err}</pre>:""}
             </div>
         </div>
     );

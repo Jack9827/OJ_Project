@@ -46,14 +46,14 @@ userSchema.statics.findByEmailOrUsernameAndPassword = async ({ email, userName, 
     //if email is there or not
     //if this user exit karta hai toh pura data aa jaega
     const user = await UserModel.findOne({ email });
-    if (!user) throw new Error("Email doesn't match with any user");
+    if (!user) throw new Error("No such account found");
 
     if (user.userName != userName) throw new Error("No such account found");
 
     //check for password
     const matchPassword = await bcrypt.compare(password, user.password);
 
-    if (!matchPassword) throw new Error("INvalid Password");
+    if (!matchPassword) throw new Error("Invalid Password");
 
     //else everthing is fine
     return user;
